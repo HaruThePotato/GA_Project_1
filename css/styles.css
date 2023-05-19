@@ -1,0 +1,14 @@
+* {
+    margin: 0 auto;
+    display: block;
+}
+
+#grid {
+    background: blue;
+}
+
+.tiles {
+    display: block;
+    float: left;
+    background: red;
+}
