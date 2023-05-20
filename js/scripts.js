@@ -5,42 +5,83 @@ const GameManager = {
     MOVES_TAKEN: 0,
     LEVEL: 1,
     TIMER: 100,
-    COL: 5,
-    ROW: 5,
+    COL: 8,
+    ROW: 8,
     TILE_SIZE: 100
 };
 
+let userSelected = "";
 const icons = ["fox", "chinchilla", "duck", "bull", "red_panda", "panda", "sloth", "pig", "chicken"];
 const grid = document.querySelector("#grid");
 const grid_allocation = new Array(GameManager.ROW).fill(0).map(() => new Array(GameManager.COL).fill(0));
 
 function onMouseDownSelect() {
 
-    resetGridMouseDown();
-
-    this.style.backgroundColor = "orange";
-    
     const temp = this.getAttribute("id").split("-");
     temp[0] = temp[0].replace("r", "");
     temp[1] = temp[1].replace("c", "");
 
-    if(temp[0] >= 0 && temp[0] < (GameManager.ROW - 1)) {
-        document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
+    if(userSelected == "") {
+        resetGridMouseDown();
+        this.style.backgroundColor = "orange";
+    
+        if(temp[0] >= 0 && temp[0] < (GameManager.ROW - 1)) {
+            document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
+        }
+        if(temp[0] <= (GameManager.ROW - 1) && temp[0] > 0) {
+            document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
+        }
+        if(temp[1] >= 0 && temp[1] < (GameManager.COL - 1)) {
+            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.backgroundColor = "green";
+        }
+        if(temp[1] <= (GameManager.COL - 1) && temp[1] > 0) {
+            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.backgroundColor = "green";
+        }
+
+        userSelected = this;
     }
-    if(temp[0] <= (GameManager.ROW - 1) && temp[0] > 0) {
-        document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
-    }
-    if(temp[1] >= 0 && temp[1] < (GameManager.COL - 1)) {
-        document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.backgroundColor = "green";
-    }
-    if(temp[1] <= (GameManager.COL - 1) && temp[1] > 0) {
-        document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.backgroundColor = "green";
+    else {
+        if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) + 1) == temp[0] &&
+            (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
+            console.log("DOWN");
+            resetGridMouseDown();
+        }
+        if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) - 1) == temp[0] &&
+        (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
+            console.log("UP");
+            resetGridMouseDown();
+        }
+        if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) + 1) == temp[1] &&
+        (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
+            console.log("RIGHT");
+            resetGridMouseDown();
+        }
+        if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) - 1) == temp[1] &&
+        (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
+            console.log("LEFT");
+            resetGridMouseDown();
+        }
+        if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1] &&
+        (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
+            console.log("MIDDLE");
+            resetGridMouseDown();
+        }
+
+        userSelected = "";
     }
 }
 
-function onMouseUp() {
-    this.style.backgroundColor = "purple";
+function checkMatch() {
+    for (let a = 0; a < GameManager.ROW; a++) {
+        for (let b = 0; b < GameManager.COL; b++) {
+
+        }
+    }
 }
+
+//function onMouseUp() {
+//    this.style.backgroundColor = "purple";
+//}
 
 //function onHoverEnter() {
 //    this.style.backgroundColor = "purple";
@@ -61,9 +102,8 @@ function createGrid() {
             temp.setAttribute("class", "tiles");
             temp.style.height = GameManager.TILE_SIZE + "px";
             temp.style.width = GameManager.TILE_SIZE + "px";
-            temp.style.borderRadius = "100px";
             temp.addEventListener("mousedown", onMouseDownSelect);
-            temp.addEventListener("mouseup", onMouseUp);
+            //temp.addEventListener("mouseup", onMouseUp);
             //temp.addEventListener("mouseenter", onHoverEnter);
             //temp.addEventListener("mouseout", onHoverOut);
         }
