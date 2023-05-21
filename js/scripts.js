@@ -5,8 +5,8 @@ const GameManager = {
     MOVES_TAKEN: 0,
     LEVEL: 1,
     TIMER: 100,
-    COL: 8,
-    ROW: 8,
+    COL: 5,
+    ROW: 5,
     TILE_SIZE: 100
 };
 
@@ -44,37 +44,73 @@ function onMouseDownSelect() {
         if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) + 1) == temp[0] &&
             (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
             console.log("DOWN");
-            resetGridMouseDown();
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) - 1) == temp[0] &&
         (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
             console.log("UP");
-            resetGridMouseDown();
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) + 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("RIGHT");
-            resetGridMouseDown();
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) - 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("LEFT");
-            resetGridMouseDown();
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("MIDDLE");
-            resetGridMouseDown();
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
-
+        resetGridMouseDown();
         userSelected = "";
     }
 }
 
-function checkMatch() {
+function swapTiles(a, b, temp) {
+    grid_allocation[temp[0]][temp[1]] = a;
+    grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")] = b;
+    render();
+}
+
+function render() {
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
+            document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[grid_allocation[a][b]] + ".png')";
+        }
+    }
+}
 
+function checkMatch() {
+    let match_timer = 0;
+
+    for (let a = 0; a < GameManager.ROW; a++) {
+        for (let b = 0; b < GameManager.COL; b++) {
+            console.log("r" + a + "-c" + b);
+            if(a < GameManager.ROW - 1) {
+                if(grid_allocation[a][b] == grid_allocation[a + 1][b]) {
+                    console.log("A");
+                }
+            }
+            if(a > 0) {
+                if(grid_allocation[a][b] == grid_allocation[a - 1][b]) {
+                    console.log("B");
+                }
+            }
+            if(b < GameManager.COL - 1){
+                if(grid_allocation[a][b] == grid_allocation[a][b + 1]) {
+                    console.log("C");
+                }
+            }
+            if(b > 0){
+                if(grid_allocation[a][b] == grid_allocation[a][b - 1]) {
+                    console.log("D");
+                }
+            }
         }
     }
 }
@@ -129,6 +165,7 @@ function fillGrid() {
             document.querySelector("#r" + a + "-c" + b).style.backgroundSize = "70%";
         }
     }
+    checkMatch();
     console.log(grid_allocation);
 }
 
