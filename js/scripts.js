@@ -5,8 +5,8 @@ const GameManager = {
     MOVES_TAKEN: 0,
     LEVEL: 1,
     TIMER: 100,
-    COL: 5,
-    ROW: 5,
+    COL: 4,
+    ROW: 4,
     TILE_SIZE: 100
 };
 
@@ -85,34 +85,94 @@ function render() {
     }
 }
 
-function checkMatch() {
-    let match_timer = 0;
+function onStartRemovePattern() {
+    let match_times = 0;
+    const direction = []; // UP DOWN LEFT RIGHT
+    const tempArray = [];
 
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
-            console.log("r" + a + "-c" + b);
             if(a < GameManager.ROW - 1) {
                 if(grid_allocation[a][b] == grid_allocation[a + 1][b]) {
-                    console.log("A");
+                    direction[1] = true;
+                    match_times++;
                 }
             }
             if(a > 0) {
                 if(grid_allocation[a][b] == grid_allocation[a - 1][b]) {
-                    console.log("B");
+                    direction[0] = true;
+                    match_times++;
                 }
             }
             if(b < GameManager.COL - 1){
                 if(grid_allocation[a][b] == grid_allocation[a][b + 1]) {
-                    console.log("C");
+                    direction[3] = true;
+                    match_times++;
                 }
             }
             if(b > 0){
                 if(grid_allocation[a][b] == grid_allocation[a][b - 1]) {
-                    console.log("D");
+                    direction[2] = true;
+                    match_times++;
                 }
             }
+
+            if(match_times > 1) {
+                
+                tempArray.push(a + ", " + b);
+                console.log(a + ", " + b + " - A");
+
+                if(a < GameManager.ROW - 1) {
+                    if(grid_allocation[a][b] == grid_allocation[a + 1][b]) {
+                        if(direction[1]) {
+                            tempArray.push((a + 1) + ", " + b);
+                            console.log((a + 1) + ", " + b + " - B");
+                        }
+                    }
+                }
+
+                if(a > 0) {
+                    if(grid_allocation[a][b] == grid_allocation[a - 1][b]) {
+                        if(direction[0]) {
+                            tempArray.push((a - 1) + ", " + b);
+                            console.log((a - 1) + ", " + b + " - C");
+                        }
+                    }
+                }
+
+                if(b < GameManager.COL - 1) {
+                    if(grid_allocation[a][b] == grid_allocation[a][b + 1]) {
+                        if(direction[3]) {
+                            tempArray.push(a + ", " + (b + 1));
+                            console.log(a + ", " + (b + 1) + " - D");
+                        }
+                    }
+                }
+
+                if(b > 0) {
+                    if(grid_allocation[a][b] == grid_allocation[a][b - 1]) {
+                        if(direction[2]) {
+                            tempArray.push(a + ", " + (b - 1));
+                            console.log(a + ", " + (b - 1) + " - E");
+                        }
+                    }
+                }     
+
+                for (let i = 0; i < direction.length; i++)
+                    direction[i] = false;
+            }
+            // for (let i = 0; i < tempArray_inner.length; i++) {
+            //     tempArray_outer.push(tempArray_inner[i]);
+            // }
+            // while(tempArray_inner.length > 0) {
+            //     tempArray_inner.pop();
+            // }
+            match_times = 0;
         }
+
     }
+    console.log(tempArray.filter(returnUnique));
+    //console.log(tempArray);
 }
 
 //function onMouseUp() {
@@ -154,6 +214,10 @@ function resetGridMouseDown() {
     }
 }
 
+function returnUnique(value, index, array) {
+    return array.indexOf(value) === index;
+  }
+
 function fillGrid() {
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
@@ -165,8 +229,8 @@ function fillGrid() {
             document.querySelector("#r" + a + "-c" + b).style.backgroundSize = "70%";
         }
     }
-    checkMatch();
-    console.log(grid_allocation);
+    onStartRemovePattern();
+    //console.log(grid_allocation);
 }
 
 function random(max) {
