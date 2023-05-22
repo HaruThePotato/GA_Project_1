@@ -3,12 +3,38 @@
     display: block;
 }
 
+body {
+    background-image: url("../images/wallpaper.jpg");
+    background-size: 1000px;
+}
+
 #grid {
-    background: blue;
+    background: white;
+    border-radius: 10px;
+    padding-bottom: 60px;
+}
+
+#ui {
+    position: relative;
+    background: black;
+    border-radius: 10px;
+    width: 98%;
+    top: 6px;
+    height: 50px;
+    margin-bottom: 10px;
 }
 
 .tiles {
     display: block;
     float: left;
-    background: red;
+    border-radius: 10px;
+    background: #C4D6B0;
+}
+#score {
+    color: white;
+    width: 10%;
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+    margin: auto;
 }

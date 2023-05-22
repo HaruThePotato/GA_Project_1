@@ -1,17 +1,19 @@
 const GameManager = {
-    CURRENT_TILE_TYPES:4,
+    CURRENT_TILE_TYPES: 8,
     CURRENT_SCORE: 0,
     MAXIMUM_SCORE: 10,
     MOVES_TAKEN: 0,
     LEVEL: 1,
     TIMER: 100,
-    COL: 4,
-    ROW: 4,
-    TILE_SIZE: 100
+    COL: 8,
+    ROW: 8,
+    TILE_SIZE: 90,
+    TILE_MARGIN: 5
 };
 
 let userSelected = "";
 const icons = ["fox", "chinchilla", "duck", "bull", "red_panda", "panda", "sloth", "pig", "chicken"];
+const color = ["9F8170", "C51E3A", "FFBF00", "FDBCB4", "7BA05B", "0D98BA", "9966CC", "AB274F", "BA160C"];
 const grid = document.querySelector("#grid");
 const grid_allocation = new Array(GameManager.ROW).fill(0).map(() => new Array(GameManager.COL).fill(0));
 
@@ -23,19 +25,19 @@ function onMouseDownSelect() {
 
     if(userSelected == "") {
         resetGridMouseDown();
-        this.style.backgroundColor = "orange";
+        //this.style.backgroundColor = "orange";
     
         if(temp[0] >= 0 && temp[0] < (GameManager.ROW - 1)) {
-            document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
+            //document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
         }
         if(temp[0] <= (GameManager.ROW - 1) && temp[0] > 0) {
-            document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
+            //document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.backgroundColor = "green";
         }
         if(temp[1] >= 0 && temp[1] < (GameManager.COL - 1)) {
-            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.backgroundColor = "green";
+            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.backgroundColor = "green";
         }
         if(temp[1] <= (GameManager.COL - 1) && temp[1] > 0) {
-            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.backgroundColor = "green";
+            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.backgroundColor = "green";
         }
 
         userSelected = this;
@@ -45,21 +47,25 @@ function onMouseDownSelect() {
             (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
             console.log("DOWN");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
+            userMatch();
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) - 1) == temp[0] &&
         (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
             console.log("UP");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
+            userMatch();
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) + 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("RIGHT");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
+            userMatch();
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) - 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("LEFT");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
+            userMatch();
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
@@ -83,9 +89,17 @@ function render() {
             document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[grid_allocation[a][b]] + ".png')";
         }
     }
+
+    for (let a = 0; a < GameManager.ROW; a++) {
+        for (let b = 0; b < GameManager.COL; b++) {
+            document.querySelector("#r" + a + "-c" + b).style.backgroundColor = "#" + color[grid_allocation[a][b]];
+        }
+    }
+
+    document.querySelector("#score").innerHTML = "SCORE: " + GameManager.CURRENT_SCORE;
 }
 
-function onStartRemovePattern() {
+function checkPattern() {
     let match_times = 0;
     const direction = []; // UP DOWN LEFT RIGHT
     const tempArray = [];
@@ -120,13 +134,13 @@ function onStartRemovePattern() {
             if(match_times > 1) {
                 
                 tempArray.push(a + ", " + b);
-                console.log(a + ", " + b + " - A");
+                //console.log(a + ", " + b + " - A");
 
                 if(a < GameManager.ROW - 1) {
                     if(grid_allocation[a][b] == grid_allocation[a + 1][b]) {
                         if(direction[1]) {
                             tempArray.push((a + 1) + ", " + b);
-                            console.log((a + 1) + ", " + b + " - B");
+                            //console.log((a + 1) + ", " + b + " - B");
                         }
                     }
                 }
@@ -135,7 +149,7 @@ function onStartRemovePattern() {
                     if(grid_allocation[a][b] == grid_allocation[a - 1][b]) {
                         if(direction[0]) {
                             tempArray.push((a - 1) + ", " + b);
-                            console.log((a - 1) + ", " + b + " - C");
+                            //console.log((a - 1) + ", " + b + " - C");
                         }
                     }
                 }
@@ -144,7 +158,7 @@ function onStartRemovePattern() {
                     if(grid_allocation[a][b] == grid_allocation[a][b + 1]) {
                         if(direction[3]) {
                             tempArray.push(a + ", " + (b + 1));
-                            console.log(a + ", " + (b + 1) + " - D");
+                            //console.log(a + ", " + (b + 1) + " - D");
                         }
                     }
                 }
@@ -153,7 +167,7 @@ function onStartRemovePattern() {
                     if(grid_allocation[a][b] == grid_allocation[a][b - 1]) {
                         if(direction[2]) {
                             tempArray.push(a + ", " + (b - 1));
-                            console.log(a + ", " + (b - 1) + " - E");
+                            //console.log(a + ", " + (b - 1) + " - E");
                         }
                     }
                 }     
@@ -161,19 +175,15 @@ function onStartRemovePattern() {
                 for (let i = 0; i < direction.length; i++)
                     direction[i] = false;
             }
-            // for (let i = 0; i < tempArray_inner.length; i++) {
-            //     tempArray_outer.push(tempArray_inner[i]);
-            // }
-            // while(tempArray_inner.length > 0) {
-            //     tempArray_inner.pop();
-            // }
             match_times = 0;
         }
 
     }
-    console.log(tempArray.filter(returnUnique));
-    //console.log(tempArray);
+    //console.log(tempArray.filter(returnUnique) + "\n\n\n");
+    return tempArray.filter(returnUnique);
 }
+
+
 
 //function onMouseUp() {
 //    this.style.backgroundColor = "purple";
@@ -188,8 +198,8 @@ function onStartRemovePattern() {
 //}
 
 function createGrid() {
-    grid.style.height = (GameManager.ROW * GameManager.TILE_SIZE) + "px";
-    grid.style.width = (GameManager.COL * GameManager.TILE_SIZE) + "px";
+    grid.style.height = (GameManager.ROW * GameManager.TILE_SIZE + (10 * GameManager.ROW)) + "px";
+    grid.style.width = (GameManager.COL * GameManager.TILE_SIZE + (10 * GameManager.COL)) + "px";
     
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
@@ -198,6 +208,7 @@ function createGrid() {
             temp.setAttribute("class", "tiles");
             temp.style.height = GameManager.TILE_SIZE + "px";
             temp.style.width = GameManager.TILE_SIZE + "px";
+            temp.style.margin = GameManager.TILE_MARGIN + "px";
             temp.addEventListener("mousedown", onMouseDownSelect);
             //temp.addEventListener("mouseup", onMouseUp);
             //temp.addEventListener("mouseenter", onHoverEnter);
@@ -209,7 +220,7 @@ function createGrid() {
 function resetGridMouseDown() {
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
-            document.querySelector("#r" + a + "-c" + b).style.backgroundColor = "red";
+            //document.querySelector("#r" + a + "-c" + b).style.backgroundColor = "red";
         }
     }
 }
@@ -223,19 +234,46 @@ function fillGrid() {
         for (let b = 0; b < GameManager.COL; b++) {
             const temp = random(GameManager.CURRENT_TILE_TYPES)
             grid_allocation[a][b] = temp;
+            document.querySelector("#r" + a + "-c" + b).style.backgroundColor = "#" + color[grid_allocation[a][b]];
             document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[temp] + ".png')";
             document.querySelector("#r" + a + "-c" + b).style.backgroundRepeat = "no-repeat";
             document.querySelector("#r" + a + "-c" + b).style.backgroundPosition = "center";
             document.querySelector("#r" + a + "-c" + b).style.backgroundSize = "70%";
         }
     }
-    onStartRemovePattern();
-    //console.log(grid_allocation);
+    while(checkPattern() != "") {
+        refillGrid(checkPattern());
+    }
+}
+
+function refillGrid(cp) {
+    for (let i = 0; i < cp.length; i++) {
+       grid_allocation[cp[i].split(", ")[0]][cp[i].split(", ")[1]] = random(GameManager.CURRENT_TILE_TYPES);
+    }
+
+    render();
+}
+
+function userMatch() {
+    GameManager.CURRENT_SCORE += checkPattern().length;
+    let temp = [];
+    temp = checkPattern();
+
+    console.log(temp);
+
+    while(checkPattern() != "") {
+        refillGrid(temp);
+    }
+
+    if(temp == "")
+        return true;
+
+    render();
 }
 
 function random(max) {
     return Math.floor(Math.random() * max);
-  }
+}
 
 function Start() {
     createGrid();
