@@ -1,4 +1,5 @@
 * {
+    font-family: 'Ubuntu', sans-serif;
     margin: 0 auto;
     display: block;
 }
@@ -25,14 +26,25 @@ body {
 }
 
 .tiles {
+    background-size: 10px;
     display: block;
     float: left;
     border-radius: 10px;
-    background: #C4D6B0;
+    transition: 0.1s;
 }
-#score {
+
+.tiles:hover {
+    -webkit-transform:rotate(10deg);
+    -moz-transform:rotate(10deg);
+    -ms-transform:rotate(10deg);
+    -o-transform:rotate(10deg);
+    transform:rotate(10deg);
+}
+
+.scoreUI {
+    float: left;
     color: white;
-    width: 10%;
+    width: 50%;
     padding: 15px 0;
     text-align: center;
     position: relative;
