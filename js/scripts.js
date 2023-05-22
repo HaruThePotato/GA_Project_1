@@ -1,19 +1,20 @@
 const GameManager = {
-    CURRENT_TILE_TYPES: 7,
+    CURRENT_TILE_TYPES: 5,
     CURRENT_SCORE: 0,
-    MAXIMUM_SCORE: 100,
+    MAXIMUM_SCORE: 20,
     MOVES_TAKEN: 0,
     LEVEL: 1,
     TIMER: 100,
-    COL: 8,
-    ROW: 8,
+    COL: 5,
+    ROW: 5,
     TILE_SIZE: 90,
     TILE_MARGIN: 5
 };
 
 let userSelected = "";
 const icons = ["fox", "chinchilla", "duck", "bull", "red_panda", "panda", "sloth", "pig", "chicken"];
-const color = ["9F8170", "F28482", "FFBF00", "FDBCB4", "7BA05B", "0D98BA", "9966CC", "AB274F", "E9EDC9"];
+const color = ["ff8c00", "9932cc", "8b0000", "bdb76b", "e9967a", "483d8b", "2f4f4f", "556b2f", "8fbc8f"];
+//const color = ["9F8170", "F28482", "FFBF00", "FDBCB4", "7BA05B", "0D98BA", "9966CC", "AB274F", "E9EDC9"];
 const grid = document.querySelector("#grid");
 const grid_allocation = new Array(GameManager.ROW).fill(0).map(() => new Array(GameManager.COL).fill(0));
 
@@ -25,27 +26,33 @@ function onMouseDownSelect() {
 
     if(userSelected == "") {
         resetGridMouseDown();
-        //this.style.transform = "scale(1.12)";
+        //this.style.transform = "scale(0.9)";
         // this.style.borderStyle = "solid";
         // this.style.borderColor = "#9F8170";
         // this.style.boxSizing = "border-box";
-        this.style.backgroundColor = "white";
+        //this.style.backgroundColor = "white";
+        this.style.borderColor = "red";
+        this.style.borderStyle = "solid";
     
         if(temp[0] >= 0 && temp[0] < (GameManager.ROW - 1)) {
-            //document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.transform = "scale(1.12)";
-            //document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.borderRadius = "0px";
+            //document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.transform = "scale(0.9)";
+            document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.borderColor = "red";
+            document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.borderStyle = "solid";
         }
         if(temp[0] <= (GameManager.ROW - 1) && temp[0] > 0) {
-            //document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.transform = "scale(1.12)";
-            //document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.borderRadius = "0px";
+            //document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.transform = "scale(0.9)";
+            document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.borderColor = "red";
+            document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.borderStyle = "solid";
         }
         if(temp[1] >= 0 && temp[1] < (GameManager.COL - 1)) {
-            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.transform = "scale(1.12)";
-            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.borderRadius = "0px";
+            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.transform = "scale(0.9)";
+            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.borderColor = "red";
+            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.borderStyle = "solid";
         }
         if(temp[1] <= (GameManager.COL - 1) && temp[1] > 0) {
-            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.transform = "scale(1.12)";
-            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.borderRadius = "0px";
+            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.transform = "scale(0.9)";
+            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.borderColor = "red";
+            document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.borderStyle = "solid";
         }
 
         userSelected = this;
@@ -55,30 +62,30 @@ function onMouseDownSelect() {
             (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
             console.log("DOWN");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "down");
-            userMatch("down");
+            setTimeout(userMatch, 1000, "down");
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) - 1) == temp[0] &&
         (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
             console.log("UP");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "up");
-            userMatch("up");
+            setTimeout(userMatch, 1000, "up");
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) + 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("RIGHT");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "right");
-            userMatch("right");
+            setTimeout(userMatch, 1000, "right");
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) - 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("LEFT");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "left");
-            userMatch("left");
+            setTimeout(userMatch, 1000, "left");
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
             console.log("MIDDLE");
-            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
+            //swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
         resetGridMouseDown();
         userSelected = "";
@@ -88,7 +95,6 @@ function onMouseDownSelect() {
 function swapTiles(a, b, temp, direction) {
     grid_allocation[temp[0]][temp[1]] = a;
     grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")] = b;
-    
 
     if(checkPattern() == "") {
 
@@ -134,7 +140,7 @@ function swapBack(a, b, temp, direction) {
 function render() {
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
-            document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[grid_allocation[a][b]] + ".png')";
+            //document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[grid_allocation[a][b]] + ".png')";
         }
     }
 
@@ -144,8 +150,9 @@ function render() {
         }
     }
     
-    document.querySelector("#victory_score").innerHTML = "VICTORY SCORE: " + GameManager.MAXIMUM_SCORE;
+    document.querySelector("#victory_score").innerHTML = "GOAL: " + GameManager.MAXIMUM_SCORE;
     document.querySelector("#score").innerHTML = "SCORE: " + GameManager.CURRENT_SCORE;
+    //document.querySelector("#level").innerHTML = "LEVEL: " + GameManager.LEVEL;
 }
 
 function checkPattern() {
@@ -269,7 +276,7 @@ function createGrid() {
 function resetGridMouseDown() {
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
-            //document.querySelector("#r" + a + "-c" + b).style.transform = "scale(1)";;
+            document.querySelector("#r" + a + "-c" + b).style.borderStyle = "none";
         }
     }
 }
@@ -284,14 +291,12 @@ function fillGrid() {
             const temp = random(GameManager.CURRENT_TILE_TYPES)
             grid_allocation[a][b] = temp;
             document.querySelector("#r" + a + "-c" + b).style.backgroundColor = "#" + color[grid_allocation[a][b]];
-            document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[temp] + ".png')";
+            //document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[temp] + ".png')";
             document.querySelector("#r" + a + "-c" + b).style.backgroundRepeat = "no-repeat";
             document.querySelector("#r" + a + "-c" + b).style.backgroundPosition = "center";
             document.querySelector("#r" + a + "-c" + b).style.backgroundSize = "70%";
-            
-            // document.querySelector("#r" + a + "-c" + b).style.borderStyle = "solid";
-            // document.querySelector("#r" + a + "-c" + b).style.borderColor = "#9F8170";
-            // document.querySelector("#r" + a + "-c" + b).style.boxSizing = "border-box";
+            document.querySelector("#r" + a + "-c" + b).style.boxSizing = "border-box";
+            document.querySelector("#r" + a + "-c" + b).style.borderWidth = "5px";
         }
     }
     while(checkPattern() != "") {
@@ -329,6 +334,11 @@ function random(max) {
 function Start() {
     createGrid();
     fillGrid();
+}
+
+function checkWinCondition() {
+    console.log("You win!");
+    // NEXT LEVEL
 }
 
 Start();
