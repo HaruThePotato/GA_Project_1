@@ -11,15 +11,26 @@
 
 <body>
 
-<div id="background"></div>
-  
+<div class="UI" id="pauseScreen">
+  <p class="UI_textarea" id="endScreenScore">SCORE: 10</p>
+  <p class="UI_textarea" id="endScreenGoal">GOAL: 20</p>
+  <button id="home" type="button">HOME</button>
+  <button id="reset" type="button">RESET</button>
+  <button id="back" type="button">BACK</button>
+</div>
+
+<div id="background">
     <div id="grid">
+      <div id="icon"><img src="images/pause.png"></div>
         <div id="ui">
           <!--<div class="scoreUI" id="level"></div>-->
-          <div class="scoreUI" id="score"></div>
-          <div class="scoreUI" id="victory_score"></div></div>
+          <div class="ingameUI" id="score"></div>
+          <div class="ingameUI" id="victory_score"></div>
+          <div class="ingameUI" id="timer"></div>
+        </div>
     </div>
     <div id="popup"></div>
     <script src="js/scripts.js"></script>
+</div>
 </body>
 </html>

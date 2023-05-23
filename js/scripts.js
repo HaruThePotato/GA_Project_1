@@ -1,22 +1,29 @@
 const GameManager = {
     CURRENT_TILE_TYPES: 5,
     CURRENT_SCORE: 0,
-    MAXIMUM_SCORE: 20,
+    MAXIMUM_SCORE: 50,
     MOVES_TAKEN: 0,
     LEVEL: 1,
-    TIMER: 100,
+    TIMER: 60,
     COL: 5,
     ROW: 5,
     TILE_SIZE: 90,
-    TILE_MARGIN: 5
+    TILE_MARGIN: 5,
+    MATCH_ENDED: false,
+    GameScreen: "GameScreen"
 };
 
+const gameTimer = setInterval(timer, 1000);
 let userSelected = "";
 const icons = ["fox", "chinchilla", "duck", "bull", "red_panda", "panda", "sloth", "pig", "chicken"];
 const color = ["ff8c00", "9932cc", "8b0000", "bdb76b", "e9967a", "483d8b", "2f4f4f", "556b2f", "8fbc8f"];
-//const color = ["9F8170", "F28482", "FFBF00", "FDBCB4", "7BA05B", "0D98BA", "9966CC", "AB274F", "E9EDC9"];
 const grid = document.querySelector("#grid");
 const grid_allocation = new Array(GameManager.ROW).fill(0).map(() => new Array(GameManager.COL).fill(0));
+
+document.querySelector("#pauseScreen").classList.add("hide");
+
+document.querySelector("#icon").addEventListener("mousedown", pauseButton);
+document.querySelector("#back").addEventListener("mousedown", backToGame);
 
 function onMouseDownSelect() {
 
@@ -26,31 +33,22 @@ function onMouseDownSelect() {
 
     if(userSelected == "") {
         resetGridMouseDown();
-        //this.style.transform = "scale(0.9)";
-        // this.style.borderStyle = "solid";
-        // this.style.borderColor = "#9F8170";
-        // this.style.boxSizing = "border-box";
-        //this.style.backgroundColor = "white";
         this.style.borderColor = "red";
         this.style.borderStyle = "solid";
     
         if(temp[0] >= 0 && temp[0] < (GameManager.ROW - 1)) {
-            //document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.transform = "scale(0.9)";
             document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.borderColor = "red";
             document.querySelector("#r" + (parseInt(temp[0]) + 1) + "-c" + parseInt(temp[1])).style.borderStyle = "solid";
         }
         if(temp[0] <= (GameManager.ROW - 1) && temp[0] > 0) {
-            //document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.transform = "scale(0.9)";
             document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.borderColor = "red";
             document.querySelector("#r" + (parseInt(temp[0]) - 1) + "-c" + parseInt(temp[1])).style.borderStyle = "solid";
         }
         if(temp[1] >= 0 && temp[1] < (GameManager.COL - 1)) {
-            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.transform = "scale(0.9)";
             document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.borderColor = "red";
             document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) + 1)).style.borderStyle = "solid";
         }
         if(temp[1] <= (GameManager.COL - 1) && temp[1] > 0) {
-            //document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.transform = "scale(0.9)";
             document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.borderColor = "red";
             document.querySelector("#r" + (parseInt(temp[0])) + "-c" + (parseInt(temp[1]) - 1)).style.borderStyle = "solid";
         }
@@ -58,34 +56,28 @@ function onMouseDownSelect() {
         userSelected = this;
     }
     else {
-        if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) + 1) == temp[0] &&
-            (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
-            console.log("DOWN");
-            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "down");
-            setTimeout(userMatch, 1000, "down");
-        }
         if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) - 1) == temp[0] &&
         (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
-            console.log("UP");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "up");
             setTimeout(userMatch, 1000, "up");
         }
-        if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) + 1) == temp[1] &&
-        (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
-            console.log("RIGHT");
-            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "right");
-            setTimeout(userMatch, 1000, "right");
+        if((parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", "")) + 1) == temp[0] &&
+            (parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1]) {
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "down");
+            setTimeout(userMatch, 1000, "down");
         }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) - 1) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
-            console.log("LEFT");
             swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "left");
             setTimeout(userMatch, 1000, "left");
         }
+        if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", "")) + 1) == temp[1] &&
+        (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
+            swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp, "right");
+            setTimeout(userMatch, 1000, "right");
+        }
         if((parseInt(userSelected.getAttribute("id").split("-")[1].replace("c", ""))) == temp[1] &&
         (parseInt(userSelected.getAttribute("id").split("-")[0].replace("r", ""))) == temp[0]) {
-            console.log("MIDDLE");
-            //swapTiles(grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")], grid_allocation[temp[0]][temp[1]], temp);
         }
         resetGridMouseDown();
         userSelected = "";
@@ -97,12 +89,10 @@ function swapTiles(a, b, temp, direction) {
     grid_allocation[userSelected.getAttribute("id").split("-")[0].replace("r", "")][userSelected.getAttribute("id").split("-")[1].replace("c", "")] = b;
 
     if(checkPattern() == "") {
-
         const t = document.getElementsByClassName("tiles");
         for (let i = 0; i < t.length; i++) {
             t[i].removeEventListener("mousedown", onMouseDownSelect);
         }
-
         setTimeout(swapBack, 1000, a, b, temp, direction);
     }
 
@@ -129,20 +119,22 @@ function swapBack(a, b, temp, direction) {
             break;
     }
 
-    const t = document.getElementsByClassName("tiles");
-    for (let i = 0; i < t.length; i++) {
-        t[i].addEventListener("mousedown", onMouseDownSelect);
+    if(GameManager.MATCH_ENDED == false) {
+        const t = document.getElementsByClassName("tiles");
+        for (let i = 0; i < t.length; i++) {
+            t[i].addEventListener("mousedown", onMouseDownSelect);
+        }
     }
 
     render();
 }
 
 function render() {
-    for (let a = 0; a < GameManager.ROW; a++) {
+    /*for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
-            //document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[grid_allocation[a][b]] + ".png')";
+            document.querySelector("#r" + a + "-c" + b).style.backgroundImage = "url('images/" + icons[grid_allocation[a][b]] + ".png')";
         }
-    }
+    }*/
 
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
@@ -152,6 +144,9 @@ function render() {
     
     document.querySelector("#victory_score").innerHTML = "GOAL: " + GameManager.MAXIMUM_SCORE;
     document.querySelector("#score").innerHTML = "SCORE: " + GameManager.CURRENT_SCORE;
+    document.querySelector("#timer").innerHTML = "TIMER: " + GameManager.TIMER;
+    document.querySelector("#endScreenScore").innerHTML = "SCORE: " + GameManager.CURRENT_SCORE;
+    document.querySelector("#endScreenGoal").innerHTML = "GOAL: " + GameManager.MAXIMUM_SCORE;
     //document.querySelector("#level").innerHTML = "LEVEL: " + GameManager.LEVEL;
 }
 
@@ -190,68 +185,56 @@ function checkPattern() {
             if(match_times > 1) {
                 
                 tempArray.push(a + ", " + b);
-                //console.log(a + ", " + b + " - A");
-
                 if(a < GameManager.ROW - 1) {
                     if(grid_allocation[a][b] == grid_allocation[a + 1][b]) {
                         if(direction[1]) {
                             tempArray.push((a + 1) + ", " + b);
-                            //console.log((a + 1) + ", " + b + " - B");
                         }
                     }
                 }
-
                 if(a > 0) {
                     if(grid_allocation[a][b] == grid_allocation[a - 1][b]) {
                         if(direction[0]) {
                             tempArray.push((a - 1) + ", " + b);
-                            //console.log((a - 1) + ", " + b + " - C");
                         }
                     }
                 }
-
                 if(b < GameManager.COL - 1) {
                     if(grid_allocation[a][b] == grid_allocation[a][b + 1]) {
                         if(direction[3]) {
                             tempArray.push(a + ", " + (b + 1));
-                            //console.log(a + ", " + (b + 1) + " - D");
                         }
                     }
                 }
-
                 if(b > 0) {
                     if(grid_allocation[a][b] == grid_allocation[a][b - 1]) {
                         if(direction[2]) {
                             tempArray.push(a + ", " + (b - 1));
-                            //console.log(a + ", " + (b - 1) + " - E");
                         }
                     }
                 }     
-
-                for (let i = 0; i < direction.length; i++)
+                for (let i = 0; i < direction.length; i++){
                     direction[i] = false;
+                }
             }
             match_times = 0;
         }
-
     }
-    //console.log(tempArray.filter(returnUnique) + "\n\n\n");
     return tempArray.filter(returnUnique);
 }
 
 
+function timer() {
+        if(GameManager.TIMER > 1)
+            GameManager.TIMER = GameManager.TIMER - 1;
+        else {
+            GameManager.TIMER = GameManager.TIMER - 1;
+            clearInterval(gameTimer);
+            checkWinCondition();
+        }
 
-//function onMouseUp() {
-//    this.style.backgroundColor = "purple";
-//}
-
-//function onHoverEnter() {
-//    this.style.backgroundColor = "purple";
-//}
-
-//function onHoverOut() {
-//    this.style.backgroundColor = "red";
-//}
+        render();
+}
 
 function createGrid() {
     grid.style.height = (GameManager.ROW * GameManager.TILE_SIZE + (10 * GameManager.ROW)) + "px";
@@ -266,10 +249,35 @@ function createGrid() {
             temp.style.width = GameManager.TILE_SIZE + "px";
             temp.style.margin = GameManager.TILE_MARGIN + "px";
             temp.addEventListener("mousedown", onMouseDownSelect);
-            //temp.addEventListener("mouseup", onMouseUp);
-            //temp.addEventListener("mouseenter", onHoverEnter);
-            //temp.addEventListener("mouseout", onHoverOut);
         }
+    }
+}
+
+function pauseButton() {
+    const t = document.getElementsByClassName("tiles");
+    if(GameManager.GameScreen == "GameScreen") {
+        
+
+        document.querySelector("#pauseScreen").classList.remove("hide");
+        const t = document.getElementsByClassName("tiles");
+        for (let i = 0; i < t.length; i++) {
+            t[i].removeEventListener("mousedown", onMouseDownSelect);
+        }
+        GameManager.GameScreen = "PauseScreen";
+    }
+}
+
+function backToGame() {
+    const t = document.getElementsByClassName("tiles");
+
+    if(GameManager.GameScreen == "PauseScreen") {
+
+        
+        document.querySelector("#pauseScreen").classList.add("hide");
+        for (let i = 0; i < t.length; i++) {
+            t[i].addEventListener("mousedown", onMouseDownSelect);
+        }
+        GameManager.GameScreen = "GameScreen";
     }
 }
 
@@ -283,7 +291,7 @@ function resetGridMouseDown() {
 
 function returnUnique(value, index, array) {
     return array.indexOf(value) === index;
-  }
+}
 
 function fillGrid() {
     for (let a = 0; a < GameManager.ROW; a++) {
@@ -308,7 +316,6 @@ function refillGrid(cp) {
     for (let i = 0; i < cp.length; i++) {
        grid_allocation[cp[i].split(", ")[0]][cp[i].split(", ")[1]] = random(GameManager.CURRENT_TILE_TYPES);
     }
-
     render();
 }
 
@@ -321,10 +328,12 @@ function userMatch(direction) {
         refillGrid(temp);
     }
 
-    if(temp == "")
+    if(temp == "") {
         return true;
+    }
 
     render();
+    checkWinCondition();
 }
 
 function random(max) {
@@ -337,18 +346,30 @@ function Start() {
 }
 
 function checkWinCondition() {
-    console.log("You win!");
-    // NEXT LEVEL
+    if(GameManager.MATCH_ENDED == false) {
+        const t = document.getElementsByClassName("tiles");
+
+        if(GameManager.CURRENT_SCORE >= GameManager.MAXIMUM_SCORE) {
+            console.log("You win!");
+    
+            for (let i = 0; i < t.length; i++) {
+                t[i].removeEventListener("mousedown", onMouseDownSelect);
+            }
+            GameManager.MATCH_ENDED = true;
+        }
+        else if(GameManager.TIMER == 0) {
+            console.log("You lose!");
+    
+            for (let i = 0; i < t.length; i++) {
+                t[i].removeEventListener("mousedown", onMouseDownSelect);
+            }
+            GameManager.MATCH_ENDED = true;
+        }
+    }
 }
 
 Start();
 
 // PSEUDO CODE
-// 1. MOVE TILES LEFT AND RIGHT TO CHECK FOR POSSIBLE PATTERN
-// 2. CHECK FOR PATTERNS ACROSS THE BOARD
 // 3. RESET PATTERN TO PREVIOUS BOARD
-// 4. SPAWN TILES FROM THE TOP AND DROPS THEM DOWN INTO ARRAY
-
-// 5. LOSE CONDITION: TIMER RUNS OUT OF TIME - NO MORE PATTERNS - PLAYER TERMINATES GAME
-// 6. WIN CONDITION: MAXIMUM SCORE REACHED
-// 7. POINTS: 1 POINT EACH
+// 5. LOSE CONDITION: TIMER RUNS OUT OF TIME - PLAYER TERMINATES GAME
