@@ -1,10 +1,8 @@
 const GameManager = {
     CURRENT_TILE_TYPES: 5,
     CURRENT_SCORE: 0,
-    MAXIMUM_SCORE: 50,
-    MOVES_TAKEN: 0,
-    LEVEL: 1,
-    TIMER: 60,
+    MAXIMUM_SCORE: 20,
+    TIMER: 20,
     COL: 5,
     ROW: 5,
     TILE_SIZE: 90,
@@ -13,17 +11,64 @@ const GameManager = {
     GameScreen: "GameScreen"
 };
 
-const gameTimer = setInterval(timer, 1000);
+let gameTimer = "";
 let userSelected = "";
 const icons = ["fox", "chinchilla", "duck", "bull", "red_panda", "panda", "sloth", "pig", "chicken"];
 const color = ["ff8c00", "9932cc", "8b0000", "bdb76b", "e9967a", "483d8b", "2f4f4f", "556b2f", "8fbc8f"];
 const grid = document.querySelector("#grid");
-const grid_allocation = new Array(GameManager.ROW).fill(0).map(() => new Array(GameManager.COL).fill(0));
+const grid_tiles = document.querySelector("#grid_tiles");
+let grid_allocation = "";
 
-document.querySelector("#pauseScreen").classList.add("hide");
-
-document.querySelector("#icon").addEventListener("mousedown", pauseButton);
+showWinLoseScreen(false, false, false, false);
+showStartMenu(true);
+document.querySelector("#grid").classList.add("hide");
+document.querySelector("#menuScreen").classList.add("hide");
+document.querySelector("#icon").addEventListener("mousedown", menuButton);
 document.querySelector("#back").addEventListener("mousedown", backToGame);
+document.querySelector("#play").addEventListener("mousedown", playButton);
+document.querySelector("#replay").addEventListener("mousedown", replayButton);
+document.querySelector("#reset").addEventListener("mousedown", resetButton);
+
+renderMenuUI();
+
+function replayButton() {
+    document.querySelector("#startMenu").classList.remove("hide");
+    document.querySelector("#grid").classList.add("hide");
+    GameManager.MATCH_ENDED = false;
+    GameManager.CURRENT_SCORE = 0;
+    showWinLoseScreen(false, false, false, false);
+    grid_allocation = "";
+    document.querySelector("#grid_tiles").replaceChildren();
+    document.querySelector("#icon").addEventListener("mousedown", menuButton);
+    document.querySelector("#menuScreen").classList.add("hide");
+    clearInterval(gameTimer);
+}
+
+function resetButton() {
+    document.querySelector("#startMenu").classList.remove("hide");
+    document.querySelector("#grid").classList.add("hide");
+    GameManager.MATCH_ENDED = false;
+    GameManager.CURRENT_SCORE = 0;
+    showWinLoseScreen(false, false, false, false);
+    grid_allocation = "";
+    document.querySelector("#grid_tiles").replaceChildren();
+    document.querySelector("#icon").addEventListener("mousedown", menuButton);
+    document.querySelector("#menuScreen").classList.add("hide");
+    clearInterval(gameTimer);
+}
+
+function playButton() {
+    document.querySelector("#startMenu").classList.add("hide");
+    document.querySelector("#grid").classList.remove("hide");
+    document.querySelector("#icon").addEventListener("mousedown", menuButton);
+
+    GameManager.CURRENT_TILE_TYPES = parseInt(document.querySelector("#tiles_menu_output").value);
+    GameManager.MAXIMUM_SCORE = parseInt(document.querySelector("#maxscore_menu_output").value);
+    GameManager.TIMER = parseInt(document.querySelector("#timer_menu_output").value);
+    GameManager.COL = parseInt(document.querySelector("#column_menu_output").value);
+    GameManager.ROW = parseInt(document.querySelector("#row_menu_output").value);
+    Start();
+}
 
 function onMouseDownSelect() {
 
@@ -147,7 +192,43 @@ function render() {
     document.querySelector("#timer").innerHTML = "TIMER: " + GameManager.TIMER;
     document.querySelector("#endScreenScore").innerHTML = "SCORE: " + GameManager.CURRENT_SCORE;
     document.querySelector("#endScreenGoal").innerHTML = "GOAL: " + GameManager.MAXIMUM_SCORE;
-    //document.querySelector("#level").innerHTML = "LEVEL: " + GameManager.LEVEL;
+}
+
+function renderMenuUI() {
+    const value_tiles = document.querySelector("#tiles_menu_output")
+    const input_tiles = document.querySelector("#tiles_menu")
+    value_tiles.textContent = input_tiles.value
+    input_tiles.addEventListener("input", (event) => {
+        value_tiles.textContent = event.target.value
+    })
+    
+    const value_maxscore = document.querySelector("#maxscore_menu_output")
+    const input_maxscore = document.querySelector("#maxscore_menu")
+    value_maxscore.textContent = input_maxscore.value
+    input_maxscore.addEventListener("input", (event) => {
+        value_maxscore.textContent = event.target.value
+    })
+    
+    const value_timer = document.querySelector("#timer_menu_output")
+    const input_timer = document.querySelector("#timer_menu")
+    value_timer.textContent = input_timer.value
+    input_timer.addEventListener("input", (event) => {
+        value_timer.textContent = event.target.value
+    })
+    
+    const value_column = document.querySelector("#column_menu_output")
+    const input_column = document.querySelector("#column_menu")
+    value_column.textContent = input_column.value
+    input_column.addEventListener("input", (event) => {
+        value_column.textContent = event.target.value
+    })
+    
+    const value_row = document.querySelector("#row_menu_output")
+    const input_row = document.querySelector("#row_menu")
+    value_row.textContent = input_row.value
+    input_row.addEventListener("input", (event) => {
+        value_row.textContent = event.target.value
+    })
 }
 
 function checkPattern() {
@@ -236,13 +317,44 @@ function timer() {
         render();
 }
 
+function showWinLoseScreen(menu, rp, l, w) {
+    if(menu)
+        document.querySelector("#winloseScreen").classList.remove("hide");
+    else
+        document.querySelector("#winloseScreen").classList.add("hide");
+
+    if(rp)
+        document.querySelector("#replay").classList.remove("hide");
+    else 
+        document.querySelector("#replay").classList.add("hide");
+
+    if(l)
+        document.querySelector("#lose").classList.remove("hide");
+    else 
+        document.querySelector("#lose").classList.add("hide");
+
+    if(w)
+        document.querySelector("#win").classList.remove("hide");
+    else 
+        document.querySelector("#win").classList.add("hide");
+}
+
+function showStartMenu(menu) {
+    if(menu)
+        document.querySelector("#startMenu").classList.remove("hide");
+    else
+        document.querySelector("#startMenu").classList.add("hide");
+}
+
 function createGrid() {
+    grid_allocation = new Array(GameManager.ROW).fill(0).map(() => new Array(GameManager.COL).fill(0))
+
     grid.style.height = (GameManager.ROW * GameManager.TILE_SIZE + (10 * GameManager.ROW)) + "px";
     grid.style.width = (GameManager.COL * GameManager.TILE_SIZE + (10 * GameManager.COL)) + "px";
     
     for (let a = 0; a < GameManager.ROW; a++) {
         for (let b = 0; b < GameManager.COL; b++) {
-            const temp = grid.appendChild(document.createElement("div"));
+            const temp = grid_tiles.appendChild(document.createElement("div"));
             temp.setAttribute("id", "r" + a + "-c" + b);
             temp.setAttribute("class", "tiles");
             temp.style.height = GameManager.TILE_SIZE + "px";
@@ -253,32 +365,29 @@ function createGrid() {
     }
 }
 
-function pauseButton() {
+function menuButton() {
     const t = document.getElementsByClassName("tiles");
     if(GameManager.GameScreen == "GameScreen") {
-        
-
-        document.querySelector("#pauseScreen").classList.remove("hide");
+        document.querySelector("#menuScreen").classList.remove("hide");
         const t = document.getElementsByClassName("tiles");
         for (let i = 0; i < t.length; i++) {
             t[i].removeEventListener("mousedown", onMouseDownSelect);
         }
-        GameManager.GameScreen = "PauseScreen";
+        GameManager.GameScreen = "MenuScreen";
     }
 }
 
 function backToGame() {
     const t = document.getElementsByClassName("tiles");
-
-    if(GameManager.GameScreen == "PauseScreen") {
-
-        
-        document.querySelector("#pauseScreen").classList.add("hide");
-        for (let i = 0; i < t.length; i++) {
-            t[i].addEventListener("mousedown", onMouseDownSelect);
+        if(GameManager.GameScreen == "MenuScreen") {
+            document.querySelector("#menuScreen").classList.add("hide");
+            if(GameManager.MATCH_ENDED == false) {
+                for (let i = 0; i < t.length; i++) {
+                    t[i].addEventListener("mousedown", onMouseDownSelect);
+                }
+            }
+            GameManager.GameScreen = "GameScreen";
         }
-        GameManager.GameScreen = "GameScreen";
-    }
 }
 
 function resetGridMouseDown() {
@@ -319,6 +428,22 @@ function refillGrid(cp) {
     render();
 }
 
+function changeStartProperties(tot, ms, timer, c, r) {
+    if(tot >= 3 && tot <= 8)
+        return true;
+    else {
+        console.log("Wrong tile type amount");
+        return true;
+    }
+    
+    if(ms >= 3 && ms <= 8)
+        return true;
+    else {
+        console.log("Wrong tile type amount");
+        return true;
+    }
+}
+
 function userMatch(direction) {
     GameManager.CURRENT_SCORE += checkPattern().length;
     let temp = [];
@@ -343,6 +468,7 @@ function random(max) {
 function Start() {
     createGrid();
     fillGrid();
+    gameTimer = setInterval(timer, 1000);
 }
 
 function checkWinCondition() {
@@ -351,25 +477,33 @@ function checkWinCondition() {
 
         if(GameManager.CURRENT_SCORE >= GameManager.MAXIMUM_SCORE) {
             console.log("You win!");
+
+            showWinLoseScreen(true, true, false, true)
     
             for (let i = 0; i < t.length; i++) {
                 t[i].removeEventListener("mousedown", onMouseDownSelect);
             }
+            clearInterval(gameTimer);
+            document.querySelector("#menuScreen").classList.add("hide");
+            document.querySelector("#icon").removeEventListener("mousedown", menuButton);
             GameManager.MATCH_ENDED = true;
         }
         else if(GameManager.TIMER == 0) {
             console.log("You lose!");
+
+            showWinLoseScreen(true, true, true, false)
     
             for (let i = 0; i < t.length; i++) {
                 t[i].removeEventListener("mousedown", onMouseDownSelect);
             }
+            clearInterval(gameTimer);
+            document.querySelector("#menuScreen").classList.add("hide");
+            document.querySelector("#icon").removeEventListener("mousedown", menuButton);
+            document.querySelector("#replay").addEventListener("mousedown", replayButton);
             GameManager.MATCH_ENDED = true;
         }
     }
 }
-
-Start();
-
 // PSEUDO CODE
 // 3. RESET PATTERN TO PREVIOUS BOARD
 // 5. LOSE CONDITION: TIMER RUNS OUT OF TIME - PLAYER TERMINATES GAME

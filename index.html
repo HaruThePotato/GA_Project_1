@@ -6,15 +6,40 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="UI" id="pauseScreen">
-  <p class="UI_textarea" id="endScreenScore">SCORE: 10</p>
-  <p class="UI_textarea" id="endScreenGoal">GOAL: 20</p>
-  <button id="home" type="button">HOME</button>
+<div class="UI" id="winloseScreen">
+  <p id="win">Congratulations, you win!</p>
+  <p id="lose">You lost, would you like to try again?</p>
+  <button id="replay" type="button">REPLAY</button>
+</div>
+
+<div class="UI" id="startMenu">
+  <p id="welcome">Welcome to Tiler</p>
+
+  <p>Types of tile (min: 5 max: 8): <output id="tiles_menu_output"></output></p>
+  <input id="tiles_menu" value="5" step="1" min="5" max="8" type="range" name="tiles">
+
+  <p>Maximum score (min: 10 max: 200): <output id="maxscore_menu_output"></output></p>
+  <input id="maxscore_menu" value="10" step="1" min="10" max="200" type="range" name="maximum score">
+  
+  <p>Timer (min: 10 max: 200): <output id="timer_menu_output"></output></p>
+  <input id="timer_menu" value="10" step="1" min="10" max="200" type="range" name="timer">
+
+  <p>Column (min: 5 max: 50): <output id="column_menu_output"></output></p>
+  <input id="column_menu" value="5" step="1" min="5" max="50" type="range" name="column">
+  
+  <p>Row (min: 5 max: 50): <output id="row_menu_output"></output></p>
+  <input id="row_menu" value="5" step="1" min="5" max="50" type="range" name="row">
+  <button id="play" type="range" type="button">PLAY</button>
+</div>
+
+<div class="UI" id="menuScreen">
+  <p class="UI_textarea" id="endScreenScore"></p>
+  <p class="UI_textarea" id="endScreenGoal"></p>
   <button id="reset" type="button">RESET</button>
   <button id="back" type="button">BACK</button>
 </div>
@@ -23,10 +48,13 @@
     <div id="grid">
       <div id="icon"><img src="images/pause.png"></div>
         <div id="ui">
-          <!--<div class="scoreUI" id="level"></div>-->
+          
           <div class="ingameUI" id="score"></div>
           <div class="ingameUI" id="victory_score"></div>
           <div class="ingameUI" id="timer"></div>
+        </div>
+        <div id="grid_tiles">
+          <!-- ALL TILES ARE IN HERE -->
         </div>
     </div>
     <div id="popup"></div>
