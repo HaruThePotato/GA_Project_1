@@ -1,175 +1,78 @@
-Developing a Tetris Game - Catris
-Project Brief
-MVP - Minimum Viable Product
+# Developing a Tile-Matching Game - Tiler
 
-Built with HTML, CSS and JavaScript (jQuery is strongly optional)
-Use Javascript for DOM manipulation
-Hosted on Github pages
-Commits to Github frequently
-A README.md file with explanations of the technologies used, the approach taken, a link to your live site, installation instructions, unsolved problems, etc.
-Be displayed in the browser
-Have some kind of user interaction via mouseclick or keypress
-Stretch Goals (Not Mandatory)
+## Project Brief
+*MVP - Minimum Viable Product* 
+- Built with HTML, CSS and JavaScript
+- Use JavaScript for DOM manipulation
+- Hosted on GitHub pages
+- Commits to GitHub frequently
+- A README.md file with explanations of the technologies used, the approach taken, installation instructions, unsolved problems, etc.
+- Be displayed in the browser
+- Have some kind of user interaction via mouse click or keypress
 
-Look into localstorage so you can save data to the user's browser
-Timeframe
+## Timeframe
 1 month
 
-Technologies & Tools Used
-HTML
-CSS
-JavaScript
-Git & GitHub
+## Technologies & Tools Used
+- HTML
+- CSS
+- JavaScript
+- Git & GitHub
 
-Description
-This is a classic Tetris game with a fun cat spin on it. The game was designed and implemented using HTML, CSS, and Javascript while attending the Software Engineering Immersive course at General Assembly.
+## Description
+"Tile Matcher" is a captivating puzzle game where players match and eliminate tiles of the same design or colour. Clear the board by strategically selecting and removing matching pairs, aiming for high scores and challenging yourself to create chain reactions. It's a fast-paced and addictive game that tests your pattern recognition skills while providing hours of enjoyable gameplay.
 
-I chose to recreate this game as it was one of the games which I loved playing in my childhood and it's still addictive even in adulthood. The tile-matching game was created in 1984 by a Soviet engineer, Alexey Pajitnov, who loved puzzles. He developed it purely out of interest and didn't intend to make money out of it. He was inspired by a puzzle game called "pentominoes," in which different wooden shapes made of five equal squares are assembled in a box.
+I developed this game while enrolled in the Software Engineering Immersive course at General Assembly, I utilized HTML, CSS, and JavaScript to design and implement the game.
 
-A lot of things which programmers create are usually based on things which currently exist all around us. I feel that this is what programming is to me. Creating things for the joy of it or because you want to use something which someone has not made by being inspired by your surroundings.
+I chose to develop a tile matching game because of its addictive and engaging nature.
 
+Tile matching games have a fascinating history that can be traced back to the earliest days of electronic gaming. The genre gained significant popularity in the 1980s with the introduction of games like "Tetris" and "Columns." These classic titles captured the attention of players worldwide, showcasing the addictive nature of arranging and eliminating tiles. As technology advanced, tile matching games continued to evolve, embracing different themes and variations. From the emergence of "Bejewelled" in the early 2000s to the widespread success of mobile games like "Candy Crush Saga," tile matching games have become a staple in the gaming industry, captivating players of all ages with their engaging gameplay mechanics and challenging puzzles.
 
-High Concept
-Different bricks called Tetriminos which are randomly generated will fall down. Players will use the arrow keys to rotate, move, and drop the Tetriminos. Players will attempt to clear as many lines as possible by completing horizontal rows of blocks without any empty spaces, but if the Tetriminos surpass the Skyline the game is over!
+## High Concept
+Immerse yourself in the addictive world of tile matching, where quick thinking, strategic moves, and pattern recognition collide. Clear the board by matching and eliminating tiles, creating captivating chain reactions and aiming for the highest scores.
 
-I looked at various versions of Tetris to see how I can structure the visuals and structure of it, and you can take a look at some references I took in the Idea Board folder.
+## Deployment
+The game is deployed on GitHub pages, and you can play the game here: https://github.com/HaruThePotato/Tiler
 
+## How To Play
+The objective is to find and match pairs of identical tiles on the game board. Just click or select one tile, then click or select another adjacent tile that matches. When a match is made, the tiles will disappear, and a new batch of tiles will appear. Continue making as many matches as you can in order to reach your goal.
 
-Deployment
-The game is deployed on GitHub pages, and you can play the game here: https://chrysaliswoon.github.io/CatrisProject/
+## Development Stage
+- Generating the Board with adjustable columns and rows [Timeline: 5 days]
+- Create the Game Logic [Timeline: 2 weeks]
+- Create User Interface [Timeline: 3 days]
+- Create point system [Timeline: 1 weeks]
+- Style the Game [Timeline: 3 days]
 
+## Key Learnings
+1. Gained a solid understanding of core programming concepts such as variables, loops, conditional statements, and functions.
 
-How To Play
-Instructions and gameplay image were taken from the official Tetris website The goal of Tetris is to score as many points as possible by clearing horizontal lines of Blocks. The player must rotate, move, and drop the falling Tetriminos inside the Matrix (playing field). Lines are cleared when they are filled with Blocks and have no empty spaces.
+2. Learned to utilize data structures like arrays or grids to represent the game board and implemented algorithms for tile matching, movement, and other game mechanics.
 
-As lines are cleared, the level increases and Tetriminos fall faster, making the game progressively more challenging. If the Blocks land above the top of the playing field, the game is over.
+3. I learned how to determine if a tile that the user has chosen matches any patterns within the grid after it is moved to either one of the four directions available by checking all the tiles on the board whenever a change occurs, finding the tiles with 2 or more identical pairings next to them, adding them all into an array and eliminating the identical ones.
 
-Tetris Instruction
+4. I learned how to swap tiles around by fiddling around between the user’s selection, updating the array and rendering it’s content on a web browser.
 
+## Favourite Functions
+Among the various functions within this tile matching game, I particularly found the pattern checking function, tile manipulation function, and grid creation function to be the most enjoyable to develop.
 
-Ideation Sketch
-Before creating the code for the game, I drew out the different components of the game and everything I knew and could observe about the game mechanics. This allowed me to identify the various visual components of the game which will affect my HTML and CSS codes, and which parts I would need to make interactive, which affects the JS portion of my codes.
 
-Code Framework
+## Future Developments / Improvements
+if there were any future developments, these would be the future improvements I would implement:
 
+- Apply a better styling and theme to the entire game so that users who care deeply about graphics would also enjoy the game
+- Recreate the game with shorter, cleaner, and more organized codes independently.
+- Create a level system to the tile matching game so that it would progressively get harder.
+- Adding bombs and other unique power ups that the users can use.
+- Create an instruction page.
 
-Game Architecture
-In order to understand the various components which I will need to create, I first played a standard Tetris game and observed how the Tetrominoes moved, the size of the Tetris Board, and what are the different types of variables involved.
+## Summary
+I embraced the challenge of developing a tile matching game because I found it enjoyable and recognized its heavy reliance on logical thinking and coding skills. I believed that it would provide an excellent opportunity to strengthen my foundation in programming.
 
-Afterwards, I deconstructed it and drew out the various components:
+While creating this game, I encountered numerous instances where I had to devise solutions to overcome various challenges and implement essential features.
 
-Components of Tetris
+## Game Assets
+I would like to emphasize that the game assets used in this project do not belong to me. All rights and ownership remain with the original artists and creators. For reference, below are the links to the game assets utilized:
 
-I used a grid paper to identify how big the board and Tetrominoes should be.
-
-
-Approach to Development
-Using the plan and pseudocodes, I broke down the project into stages:
-
- Step 1: Generate the Tetris Board [Timeline: 1 week]
- Step 2: Generate the Tetrominoes [Timeline: 2 weeks]
- Step 3: Create the Game Logic [Timeline: 2 weeks]
- Step 4 (Stretch Goal): Create different levels and point system [Timeline: 2 weeks]
- Step 5 (Stretch Goal): Retrieve scores [Timeline: 1 week]
-When I was coding out the project, I made it a habit to comment on my codes frequently as I was still learning and I tend to forget certain concepts or code blocks which I have done or used before. This also meant that I also committed to GitHub frequently to log all of the changes to the project so I can retrieve an older version if necessary.
-
-As Tetris is a classic game which existed for quite a while, this meant that there might have been certain standards in terms of how the Tetris was formed, and how the Tetrominoes behaved.
-
-According to the current Tetris guidelines, the standard for how Tetrominoes behave is known as the Super Rotation System (SRS)
-
-
-Key Learnings
-Through the project, I learned concepts and terms like JSON, Classes, Immutability, Destructuring and Proxy.
-
-In order to rotate the Tetromino pieces, I found out that instead of creating different variations of the matrices and looping through them, an easier way would be to use the rotation matrix, which required knowledge of linear algebra.
-
-With a project as complex as Tetris, it helps to separate the JS files for each main component so you can identify the errors and bugs. But at the same time, this meant that sometimes you might not know where a particular code is referencing it from if you don't label your functions and variables in a way which makes sense. Commenting on your codes will also help you identify what a particular section of code does, making it easier to debug.
-
-We learned in class to use setInterval or setTimeout. However, for the Tetris game, I created a function called requestAnimationFrame() which paints a frame and reschedules itself. This is so we only see the Tetris block moving down when it is visible and it enables browser optimizations. This taught me that we might learn a concept, but depending on the usage, that concept might not be suitable for what we want.
-
-
-Breakdown & Analysis of the Codes
-Below is a breakdown and analysis of some of the codes which I have categorised according to the concepts we have covered in class.
-
-Week 1: Conditionals, Booleans, Loop
-A Boolean is a system of logical thought developed by the English mathematician George Boole. We use a number of operators to determine whether a condition is true or false.
-
-Conditional-main.js file
-
-The above code uses a While loop which executes the statement as long as the test condition is true.
-
-The test condition for this code can be read as ""If the user presses the space key then...".
-
-If this test condition is true, the Tetris block will do a hard drop and go to the bottom of the grid while making sure it is within the dimensions of the Tetris board.
-
-Week 1: Arrays
-An array is a data structure, and like a number or string, you can assign an array to a variable. An array is a list. All list items go between square brackets.
-
-Array-constants.js file
-
-For the Tetris game, we used a few arrays, two of which is determining the colors and shapes of the Tetris block.
-
-For the shapes, any number that is more than 0 indicates that the particular section will be colored. The numbers 1-7 represents the different colors it will create for each shape.
-
-Week 2: Functions & Scope
-Using functions is another application of DRY. Don't Repeat Yourself. With a function, you can store code that can be used conveniently as many times as you wish, without having to rewrite the code each time. We always use const to declare the functions. Functions should only do one thing.
-
-Functions/Scope-main.js file
-
-Scope is the restriction of where in your code your variables can be accessed. If you try to access a variable outside of its scope, it will not be defined. In general, you want scope to be restricted. You only want your variables accessible to specific safe zones.
-
-Week 2: Pseudocode & Objects
-Pseudo code is the process of taking a larger solution and breaking it down into the programmable steps without actually writing any code.
-
-Pseudocode-constants.js file Pseudocode(2)-constants.js file
-
-In JavaScript, objects are what we use to represent key-value pairs. Arrays are declared using the square brackets const arr = []; while Objects are declared using the curly braces const obj = {}. Objects contain key-value pairs. They are are the properties of the object.
-
-Objects-constants.js
-
-Week 3: Callbacks
-A function that takes another function an argument is called a higher order function. The function that is being passed in is called a callback.
-
-Callbacks(1)-main.js Callbacks(2)-main.js Callbacks(3)-main.js
-
-Week 3: Object Oriented Programming (OOP) & Classes
-A class is a blueprint or template for similar objects, and we can add data and functionality to it. When creating a class, it's custom to capitalize the first letter of the variable, so we know it's a class. This follows customs in other programming languages.
-
-Classes(1)-board.js Classes(2)-main.js
-
-Week 5: Event Bubbling
-When elements are nested within the DOM, the DOM needs a way to decide which elements ought to trigger an event.
-
-EventBubbling-main.js
-
-Future Developments / Improvements
-As this is created for a project submission, there might be no future iterations of this. However, if there were, these would be the future developments/improvements I would implement:
-
-Update the game visuals to make it more cat-themed and visually appealing.
-Recreate the game with shorter and more efficient codes independently.
-Create a hold section where players can store a Tetris block to be used later.
-Program the Pause, Rotate Left and Hold button.
-Create a Start screen with instructions.
-
-Summary
-As this was my first time creating a project in a very tight timeframe, it was considered extremely ambitious for me to recreate the Tetris game.
-
-However, the idea behind it was that by learning how others recreated the game, I would understand the logic flow behind it and how they linked the HTML, CSS and JS together. This would then allow me to create a game from scratch.
-
-I also learn best by recreating someone's else work, deconstructing it, and then find a better way of going about it.
-
-My philosophy is, "Don't reinvent the wheel. Analyse and observe how the wheel works, the thought process behind creating it, the mechanics of it, and then deconstruct it, and make it better through reconstructing."
-
-
-References
-As JS is relatively new to me and there were a lot of concepts that I had to get used to. In order to start the ball rolling on my project, I referenced various sources in terms of how they created their Tetris game, and adapated and modified them to be mine as much as possible.
-
-Game Development - JS Tetris
-Learning Modern JS with Tetris
-Building TETRIS - Game Development Tutorial
-Tetris SRS Mechanism Explained
-Game Asset Atrributions
-The game assets in this project does not belong to me. All rights belong to the original artists and owners. Below are the links to the game assets used in this project:
-
-Pixel Background
-Paw Icon
+- [Freepik](https://www.freepik.com/free-vector/background-pixel-rain-abstract_6072178.htm#query=seamless%20game%20background&position=30&from_view=keyword&track=ais)
+- [Freepik](https://www.freepik.com/free-vector/abstract-pixel-rain-background_6209902.htm#query=seamless%20game%20background&position=13&from_view=keyword&track=ais)
