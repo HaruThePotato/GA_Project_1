@@ -41,6 +41,7 @@ function replayButton() {
     document.querySelector("#grid_tiles").replaceChildren();
     document.querySelector("#icon").addEventListener("mousedown", menuButton);
     document.querySelector("#menuScreen").classList.add("hide");
+    GameManager.GameScreen = "GameScreen";
     clearInterval(gameTimer);
 }
 
@@ -54,6 +55,7 @@ function resetButton() {
     document.querySelector("#grid_tiles").replaceChildren();
     document.querySelector("#icon").addEventListener("mousedown", menuButton);
     document.querySelector("#menuScreen").classList.add("hide");
+    GameManager.GameScreen = "GameScreen";
     clearInterval(gameTimer);
 }
 
@@ -504,6 +506,3 @@ function checkWinCondition() {
         }
     }
 }
-// PSEUDO CODE
-// 3. RESET PATTERN TO PREVIOUS BOARD
-// 5. LOSE CONDITION: TIMER RUNS OUT OF TIME - PLAYER TERMINATES GAME
