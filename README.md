@@ -1,7 +1,7 @@
 # Developing a Tile-Matching Game - Tiler
 
 ## Project Brief
-*MVP - Minimum Viable Product* 
+**MVP - Minimum Viable Product**
 - Built with HTML, CSS and JavaScript
 - Use JavaScript for DOM manipulation
 - Hosted on GitHub pages
