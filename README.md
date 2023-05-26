@@ -10,7 +10,7 @@
 - Incorporated user interaction through mouse clicks or key presses for an engaging gaming experience.
 
 ## Timeframe
-1 month
+2 Weeks
 
 ## Technologies & Tools Used
 - HTML
@@ -37,11 +37,11 @@ The game is deployed on GitHub pages, and you can play the game here: https://gi
 The objective is to find and match pairs of identical tiles on the game board. Just click or select one tile, then click or select another adjacent tile that matches. When a match is made, the tiles will disappear, and a new batch of tiles will appear. Continue making as many matches as you can in order to reach your goal.
 
 ## Development Stage
-- Generating the Board with adjustable columns and rows [Timeline: 5 days]
-- Create the Game Logic [Timeline: 2 weeks]
-- Create User Interface [Timeline: 3 days]
-- Create point system [Timeline: 1 weeks]
-- Style the Game [Timeline: 3 days]
+- Generating the Board with adjustable columns and rows [Timeline: 3 days]
+- Create the Game Logic [Timeline: 1 weeks]
+- Create User Interface [Timeline: 2 days]
+- Create point system [Timeline: 2 days]
+- Style the Game [Timeline: 2 days]
 
 ## Key Learnings
 1. Gained a solid understanding of core programming concepts such as variables, loops, conditional statements, and functions.
