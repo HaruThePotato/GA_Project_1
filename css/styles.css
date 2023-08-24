@@ -4,23 +4,48 @@
     display: block;
 }
 
-body {
-    background-color: black;
-}
 #background {
-    background-image: url("../images/wallpaper.jpg");
-    position: absolute; 
-    top: 0px;
-    padding-bottom: 5%;
-    background-size: 1000px;
+    position: absolute;
     width: 100%;
-    z-index: -1;
     min-height: 90%;
-}
+    height: 100vh;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg, yellow 0%, yellow 25%, yellow 51%, #ff357f 100%);
+    -webkit-animation: AnimateBG 20s ease infinite;
+            animation: AnimateBG 20s ease infinite;
+    z-index: -1;
+  }
+  
+  @-webkit-keyframes AnimateBG {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  @keyframes AnimateBG {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
 #grid {
     margin-top: 50px;
-    background: white;
+    background: black;
     border-radius: 10px;
     padding: 10px 10px 70px 10px;
     z-index: 1;

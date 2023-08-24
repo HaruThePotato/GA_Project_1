@@ -22,9 +22,6 @@ let gameTimer = "";
 let userSelected = "";
 let grid_allocation = "";
 
-/*----- cached elements  -----*/
-
-
 /*----- event listeners (Logic) -----*/
 
 document.querySelector("#icon").addEventListener("mousedown", menuButton);
